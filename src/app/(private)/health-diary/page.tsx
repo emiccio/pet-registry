@@ -223,27 +223,3 @@ function HealthDiary() {
 }
 
 export default withAuth(HealthDiary)
-
-App
-  - (private)
-    - health-diary 
-      page.tsx 
-    - my-pets
-      page.tsx
-    - services
-      page.tsx
-    - tips
-      page.tsx
-    - reminders
-      page.tsx
-    -pet-profile
-      page.tsx
-    layout.tsx
-    page.tsx
-  -auth
-    - Login
-      page.tsx
-    - Register
-      page.tsx
-  layout.tsx
-  page.tsx

@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import type { NextAuthOptions } from "next-auth";
+import { config } from '@/lib/config'
 
 const prisma = new PrismaClient();
 
@@ -13,21 +14,8 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {},
       async authorize(credentials) {
-        // const { email, password } = credentials as {
-        //     email: string;
-        //     password: string;
-        //     };
-        // const user = await prisma.user.findUnique({
-        //   where: { email: credentials?.email },
-        // });
-
-        // if (user) {
-        //   return user;
-        // } else {
-        //   return null;
-        // }
         try {
-          const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
+          const response = await fetch(config.apiLogin, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

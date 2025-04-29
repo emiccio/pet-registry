@@ -38,7 +38,7 @@ export default function Login() {
       setError(res.error)
     } else {
       // Redirige a la página principal o dashboard
-      router.push('/my-petss')  // Aquí pones la ruta que desees
+      router.push('/my-pets')  // Aquí pones la ruta que desees
     }
   }
 

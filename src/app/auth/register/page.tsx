@@ -9,6 +9,8 @@ import { Sparkles, User, Mail, Lock, UserPlus } from 'lucide-react'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { config } from '@/lib/config'
+import { registerUser } from '@/actions/auth-actions'
 
 export default function Register() {
   const [registerInfo, setRegisterInfo] = useState({
@@ -27,32 +29,6 @@ export default function Register() {
   }
 
   // Aquí podrías hacer una solicitud a tu backend para registrar al usuario
-  const handleRegister = async (formData: { name: string; email: string; password: string }) => {
-    try {
-      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Registro exitoso, podrías redirigir al login
-        console.log('User created', data)
-        return true
-      } else {
-        // Mostrar error
-        console.error('Registration failed', data)
-        setError(data.message || 'Registration failed')
-        return false
-      }
-    } catch (error) {
-      console.error('Something went wrong', error)
-      setError('Something went wrong')
-      return false
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -62,13 +38,16 @@ export default function Register() {
       return
     }
 
-    const success = await handleRegister({
+    const result = await registerUser({
       name: registerInfo.name,
       email: registerInfo.email,
       password: registerInfo.password,
     })
-
-    if (!success) return
+  
+    if (result.error) {
+      setError(result.error)
+      return
+    }
 
     // Suponiendo que el registro sea exitoso, haces login automáticamente:
     const res = await signIn('credentials', {
