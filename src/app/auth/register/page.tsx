@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Sparkles, User, Mail, Lock, UserPlus } from 'lucide-react'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function Register() {
   const [registerInfo, setRegisterInfo] = useState({
@@ -15,16 +17,71 @@ export default function Register() {
     password: '',
     confirmPassword: '',
   })
+  const [error, setError] = useState('')
+  const router = useRouter()
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setRegisterInfo(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Aquí podrías hacer una solicitud a tu backend para registrar al usuario
+  const handleRegister = async (formData: { name: string; email: string; password: string }) => {
+    try {
+      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        // Registro exitoso, podrías redirigir al login
+        console.log('User created', data)
+        return true
+      } else {
+        // Mostrar error
+        console.error('Registration failed', data)
+        setError(data.message || 'Registration failed')
+        return false
+      }
+    } catch (error) {
+      console.error('Something went wrong', error)
+      setError('Something went wrong')
+      return false
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Registration submitted:', registerInfo)
-    // Here you would typically handle the registration process
+
+    if (registerInfo.password !== registerInfo.confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    const success = await handleRegister({
+      name: registerInfo.name,
+      email: registerInfo.email,
+      password: registerInfo.password,
+    })
+
+    if (!success) return
+
+    // Suponiendo que el registro sea exitoso, haces login automáticamente:
+    const res = await signIn('credentials', {
+      redirect: false,
+      email: registerInfo.email,
+      password: registerInfo.password,
+    })
+
+    if (res?.error) {
+      setError(res.error)
+    } else {
+      router.push('/my-pets')  // Redirige al usuario
+    }
   }
 
   return (
@@ -39,6 +96,7 @@ export default function Register() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <div>
               <Label htmlFor="name" className="text-lg flex items-center">
                 <User className="mr-2 h-5 w-5 text-primary" /> Name
@@ -89,17 +147,11 @@ export default function Register() {
                 </svg>
                 Google
               </Button>
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Facebook
-              </Button>
             </div>
           </div>
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:text-primary/80">
+            <Link href="/auth/login" className="font-medium text-primary hover:text-primary/80">
               Log in
             </Link>
           </p>

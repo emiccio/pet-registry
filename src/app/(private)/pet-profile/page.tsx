@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { PlusCircle, Camera, Sparkles } from 'lucide-react'
+import { withAuth } from '@/utils/withAuth'
 
-export default function PetProfile() {
+function PetProfile() {
   const [petInfo, setPetInfo] = useState({
     name: '',
     breed: '',
@@ -77,4 +78,7 @@ export default function PetProfile() {
     </div>
   )
 }
+
+export default withAuth(PetProfile)
+
 

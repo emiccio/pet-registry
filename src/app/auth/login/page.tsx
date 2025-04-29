@@ -7,22 +7,39 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Sparkles, Mail, Lock, LogIn } from 'lucide-react'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   })
+  const [error, setError] = useState('')
+  const router = useRouter()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setLoginInfo(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Login submitted:', loginInfo)
-    // Here you would typically handle the login process
+
+    const res = await signIn('credentials', {
+      redirect: false,
+      email: loginInfo.email,
+      password: loginInfo.password,
+    })
+
+    if (res?.error) {
+      console.log("Error en login:", res.error)
+      setError(res.error)
+    } else {
+      // Redirige a la página principal o dashboard
+      router.push('/my-petss')  // Aquí pones la ruta que desees
+    }
   }
 
   return (
@@ -37,6 +54,9 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              {error && <p className="text-red-500 text-center">{error}</p>}
+            </div>
             <div>
               <Label htmlFor="email" className="text-lg flex items-centers">
                 <Mail className="mr-2 h-5 w-5 text-primary" /> Email
@@ -75,17 +95,11 @@ export default function Login() {
                 </svg>
                 Google
               </Button>
-              <Button variant="outline" className="w-full">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Facebook
-              </Button>
             </div>
           </div>
           <p className="mt-6 text-center text-sm text-gray-600">
             Don't have an account?{' '}
-            <Link href="/register" className="font-medium text-primary hover:text-primary/80">
+            <Link href="/auth/register" className="font-medium text-primary hover:text-primary/80">
               Sign up
             </Link>
           </p>

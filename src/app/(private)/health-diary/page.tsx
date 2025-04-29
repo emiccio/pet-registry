@@ -9,6 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sparkles, Stethoscope, Apple, Activity, Trash2, ChevronDown, ChevronUp } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { withAuth } from "@/utils/withAuth"
+import app from "next/app"
+import App from "next/app"
+import layout from "../../layout"
+import page from "../pet-profile/page"
+import Login from "../../auth/login/page"
+import { profile } from "console"
+import Register from "../../auth/register/page"
 
 type Pet = {
   id: number
@@ -23,7 +31,7 @@ type HealthEntry = {
   description: string
 }
 
-export default function HealthDiary() {
+function HealthDiary() {
   const [pets, setPets] = useState<Pet[]>([
     { id: 1, name: "Max" },
     { id: 2, name: "Luna" },
@@ -214,3 +222,28 @@ export default function HealthDiary() {
   )
 }
 
+export default withAuth(HealthDiary)
+
+App
+  - (private)
+    - health-diary 
+      page.tsx 
+    - my-pets
+      page.tsx
+    - services
+      page.tsx
+    - tips
+      page.tsx
+    - reminders
+      page.tsx
+    -pet-profile
+      page.tsx
+    layout.tsx
+    page.tsx
+  -auth
+    - Login
+      page.tsx
+    - Register
+      page.tsx
+  layout.tsx
+  page.tsx

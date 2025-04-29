@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { Bell, Sparkles, Syringe, Apple, Dumbbell, ChevronDown, ChevronUp, Trash2 } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { withAuth } from "@/utils/withAuth"
 
 type Pet = {
   id: number
@@ -28,7 +29,7 @@ type Reminder = {
   active: boolean
 }
 
-export default function Reminders() {
+function Reminders() {
   const [pets, setPets] = useState<Pet[]>([
     { id: 1, name: "Max" },
     { id: 2, name: "Luna" },
@@ -343,4 +344,6 @@ export default function Reminders() {
     </div>
   )
 }
+
+export default withAuth(Reminders)
 

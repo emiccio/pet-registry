@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sparkles, BookOpen, Video, Heart, Dumbbell, Apple, Scissors } from "lucide-react"
+import { withAuth } from "@/utils/withAuth"
 
 type Tip = {
   id: number
@@ -16,7 +17,7 @@ type Tip = {
   category: "health" | "training" | "nutrition" | "grooming"
 }
 
-export default function Tips() {
+function Tips() {
   const [tips, setTips] = useState<Tip[]>([
     {
       id: 1,
@@ -152,4 +153,6 @@ export default function Tips() {
     </div>
   )
 }
+
+export default withAuth(Tips)
 

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sparkles, MapPin, Search, Stethoscope, ShoppingBag, TreesIcon as Tree, Scissors } from "lucide-react"
+import { withAuth } from "@/utils/withAuth"
 
 type Service = {
   id: number
@@ -15,7 +16,7 @@ type Service = {
   distance: number
 }
 
-export default function Services() {
+function Services() {
   const [services, setServices] = useState<Service[]>([
     { id: 1, name: "Happy Paws Vet", type: "vet", address: "123 Main St", distance: 0.5 },
     { id: 2, name: "Petco", type: "petstore", address: "456 Oak Ave", distance: 1.2 },
@@ -117,4 +118,6 @@ export default function Services() {
     </div>
   )
 }
+
+export default withAuth(Services)
 

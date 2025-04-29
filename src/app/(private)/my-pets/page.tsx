@@ -7,6 +7,7 @@ import { PawPrint, Pencil, Trash2, Sparkles, Camera, Stethoscope, AlertTriangle 
 import Link from 'next/link'
 import Image from 'next/image'
 import ReportLostPetForm from '@/components/ReportLostPetForm'
+import { withAuth } from '@/utils/withAuth'
 
 // This would typically come from an API or database
 const initialPets = [
@@ -14,7 +15,7 @@ const initialPets = [
   { id: 2, name: 'Luna', breed: 'Siamese Cat', age: 2, image: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
 ]
 
-export default function MyPets() {
+function MyPets() {
   const [pets, setPets] = useState(initialPets)
   const [reportingPet, setReportingPet] = useState<number | null>(null)
 
@@ -104,4 +105,6 @@ export default function MyPets() {
     </div>
   )
 }
+
+export default withAuth(MyPets)
 

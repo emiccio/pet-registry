@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Home, PawPrint, Bell, BookOpen, MapPin, BookMarked } from "lucide-react"
 
 const navItems = [
-  { href: "/", icon: Home, label: "Home", color: "text-pink-500" },
+  // { href: "/", icon: Home, label: "Home", color: "text-pink-500" },
   { href: "/my-pets", icon: PawPrint, label: "My Pets", color: "text-purple-500" },
   { href: "/reminders", icon: Bell, label: "Reminders", color: "text-yellow-500" },
   { href: "/health-diary", icon: BookOpen, label: "Health Diary", color: "text-green-500" },

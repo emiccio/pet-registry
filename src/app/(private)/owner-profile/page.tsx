@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { User, Mail, Lock, Bell, Sparkles } from 'lucide-react'
+import { withAuth } from '@/utils/withAuth'
 
-export default function OwnerProfile() {
+function OwnerProfile() {
   const [profile, setProfile] = useState({
     name: 'John Doe',
     email: 'john@example.com',
@@ -86,4 +87,7 @@ export default function OwnerProfile() {
     </div>
   )
 }
+
+export default withAuth(OwnerProfile) 
+
 

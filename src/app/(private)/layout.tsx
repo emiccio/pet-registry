@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '../globals.css'
+import BottomNav from '@/components/BottomNav'
+import ClientLayout from '@/components/layouts/ClientLayout'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,13 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <main className="min-h-screen pb-16">
-          {children}
-        </main>
-      </body>
-    </html>
+    <ClientLayout>
+      <main className="min-h-screen pb-16">
+        {children}
+      </main>
+      <BottomNav />
+    </ClientLayout>
   )
 }
 

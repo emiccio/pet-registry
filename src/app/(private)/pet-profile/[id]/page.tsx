@@ -9,6 +9,7 @@ import { PawPrint, Camera, Sparkles, BookOpen } from "lucide-react"
 import Image from "next/image"
 import VeterinaryNotebook from "@/components/VeterinaryNotebook"
 import Link from "next/link"
+import { withAuth } from '@/utils/withAuth'
 
 // This would typically come from an API or database
 const petData = {
@@ -30,7 +31,7 @@ const petData = {
   },
 }
 
-export default function PetProfile() {
+function PetProfile() {
   const params = useParams()
   const router = useRouter()
   const petId = params.id as string
@@ -129,3 +130,5 @@ export default function PetProfile() {
     </div>
   )
 }
+
+export default withAuth(PetProfile)
