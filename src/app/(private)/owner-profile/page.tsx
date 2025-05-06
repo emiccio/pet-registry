@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { User, Mail, Lock, Bell, Sparkles } from 'lucide-react'
+import { User, Mail, Lock, Bell, Sparkles, LogOut } from 'lucide-react'
 import { withAuth } from '@/utils/withAuth'
 
 function OwnerProfile() {
@@ -31,6 +31,13 @@ function OwnerProfile() {
     // Here you would typically send this data to your backend
   }
 
+  const handleLogout = () => {
+    // Here you would handle the logout process
+    console.log("Logging out...")
+    // Redirect to login page
+    window.location.href = "/login"
+  }
+
   return (
     <div className="p-4 max-w-md mx-auto pb-20">
       <h1 className="text-3xl font-bold text-primary mb-6 flex items-center">
@@ -51,43 +58,70 @@ function OwnerProfile() {
                 <User className="mr-2 h-5 w-5 text-muted-foreground" />
                 Name
               </Label>
-              <Input id="name" name="name" value={profile.name} onChange={handleInputChange} required className="mt-1" />
+              <Input
+                id="name"
+                name="name"
+                value={profile.name}
+                onChange={handleInputChange}
+                required
+                className="mt-1"
+              />
             </div>
             <div>
               <Label htmlFor="email" className="text-lg flex items-center">
                 <Mail className="mr-2 h-5 w-5 text-muted-foreground" />
                 Email
               </Label>
-              <Input id="email" name="email" type="email" value={profile.email} onChange={handleInputChange} required className="mt-1" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={profile.email}
+                onChange={handleInputChange}
+                required
+                className="mt-1"
+              />
             </div>
             <div>
               <Label htmlFor="password" className="text-lg flex items-center">
                 <Lock className="mr-2 h-5 w-5 text-muted-foreground" />
                 New Password
               </Label>
-              <Input id="password" name="password" type="password" placeholder="Leave blank to keep current" className="mt-1" />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Leave blank to keep current"
+                className="mt-1"
+              />
             </div>
             <div className="flex items-center justify-between">
               <Label htmlFor="notifications" className="text-lg flex items-center cursor-pointer">
                 <Bell className="mr-2 h-5 w-5 text-muted-foreground" />
                 Receive Notifications
               </Label>
-              <Switch
-                id="notifications"
-                checked={profile.notifications}
-                onCheckedChange={handleNotificationToggle}
-              />
+              <Switch id="notifications" checked={profile.notifications} onCheckedChange={handleNotificationToggle} />
             </div>
             <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
               Update Profile
             </Button>
           </form>
+
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <Button
+              variant="outline"
+              className="w-full border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-2 h-5 w-5" /> Sign Out
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
   )
 }
 
-export default withAuth(OwnerProfile) 
+export default withAuth(OwnerProfile)
 
 

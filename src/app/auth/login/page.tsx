@@ -64,9 +64,14 @@ export default function Login() {
               <Input id="email" name="email" type="email" value={loginInfo.email} onChange={handleInputChange} required className="mt-1" />
             </div>
             <div>
-              <Label htmlFor="password" className="text-lg flex items-center">
-                <Lock className="mr-2 h-5 w-5 text-primary" /> Password
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-lg flex items-center">
+                  <Lock className="mr-2 h-5 w-5 text-primary" /> Password
+                </Label>
+                <Link href="/auth/forgot-password" className="text-sm text-primary hover:text-primary/80">
+                  Forgot password?
+                </Link>
+              </div>
               <Input id="password" name="password" type="password" value={loginInfo.password} onChange={handleInputChange} required className="mt-1" />
             </div>
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
